@@ -100,17 +100,19 @@ export default class Pass extends Component {
               top={`${this.state.rand[i][0]}%`}
               left={`${this.state.rand[i][1]}%`}
               radius={`${this.state.rand[i][2]}px`}
+              alt="piggydoms"
             />
           )
         })}
         {Array(this.state.pigs).fill(this.state.pigs).map((el, i) => {
           return (
-            <RandomPi
+            <RandomPic
               key={i}
               src="https://i.ytimg.com/vi/Ikw5HhxC5UM/hqdefault.jpg"
               top={`${this.state.rand2[i][0]}%`}
               left={`${this.state.rand2[i][1]}%`}
               radius={`${this.state.rand2[i][2]}px`}
+              alt="piggy"
             />
           )
         })}
