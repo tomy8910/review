@@ -1,18 +1,27 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { findDOMNode } from 'react-dom'
 
 const BabyGirl = styled.div`
   height: 100vh;
-  background-color: palevioletred;
+  background-color: #00ffff;
   position: relative;
 `
 const RandomPic = styled.img`
   height: 100px;
   width: 100px;
   position: absolute;
-  top: ${props => props.top};
-  left: ${props => props.left};
+  top: calc(${props => props.top} - 100px);
+  left: calc(${props => props.left} - 100px);
+  border-radius: ${props => props.radius};
+`
+const RandomPi = styled.img`
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  top: calc(${props => props.top} - 100px);
+  left: calc(${props => props.left} - 100px);
   border-radius: ${props => props.radius};
 `
 
@@ -22,35 +31,67 @@ export default class Pass extends Component {
 
     this.state = {
       imgs: 0,
-      rand: []
+      rand: [],
+      keys: [],
+      pigs: 0,
+      rand2: []
     }
     this.destroyWorld = this.destroyWorld.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
+    this.destroyWorlds = this.destroyWorlds.bind(this)
   }
 
   destroyWorld() {
-    const left = Math.floor(Math.random() * 70)
-    const top = Math.floor(Math.random() * 70)
+    const left = Math.floor(Math.random() * 100)
+    const top = Math.floor(Math.random() * 100)
     const radius = Math.floor(Math.random() * 10 + 1)
     const rand = [...this.state.rand]
-    rand.push([left, top, rand])
+    rand.push([left, top, radius])
     this.setState({
       imgs: (this.state.imgs += 1),
       rand
     })
     console.log(this.state.imgs)
   }
+  destroyWorlds() {
+    const left = Math.floor(Math.random() * 100)
+    const top = Math.floor(Math.random() * 100)
+    const radius = Math.floor(Math.random() * 10 + 1)
+    const rand2 = [...this.state.rand2]
+    rand2.push([left, top, radius])
+    this.setState({
+      pigs: (this.state.pigs += 1),
+      rand2
+    })
+    console.log(this.state.pigs)
+  }
+  handleKeyPress(e) {
+    const keys = [...this.state.keys]
+    let key = keys
+    if (key.slice(-4, key.length).join('').toLowerCase() === 'doms') {
+      console.log(key.slice(-4, key.length).join('').toLowerCase())
+      this.destroyWorld()
+    }
+    if (key.slice(-4, key.length).join('').toLowerCase() === 'toms') {
+      console.log(key.slice(-4, key.length).join('').toLowerCase())
+      this.destroyWorlds()
+    }
 
+    keys.push(e.key)
+    this.setState({
+      keys
+    })
+    //this.destroyWorld()
+    console.log(this.state.keys)
+    console.log()
+  }
   render() {
     return (
       <BabyGirl
         innerRef={input => (this.haha = input)}
-        onClick={this.destroyWorld}
+        onKeyDown={this.handleKeyPress}
+        tabIndex="0"
       >
-        {/*} Hi my name is {this.props.name}
-        // <button onClick={this.props.makeBulokMoves}>Haha</button>
-        // I am {this.props.babe}
-        {*/}
-
         {Array(this.state.imgs).fill(this.state.imgs).map((el, i) => {
           return (
             <RandomPic
@@ -59,6 +100,17 @@ export default class Pass extends Component {
               top={`${this.state.rand[i][0]}%`}
               left={`${this.state.rand[i][1]}%`}
               radius={`${this.state.rand[i][2]}px`}
+            />
+          )
+        })}
+        {Array(this.state.pigs).fill(this.state.pigs).map((el, i) => {
+          return (
+            <RandomPi
+              key={i}
+              src="https://i.ytimg.com/vi/Ikw5HhxC5UM/hqdefault.jpg"
+              top={`${this.state.rand2[i][0]}%`}
+              left={`${this.state.rand2[i][1]}%`}
+              radius={`${this.state.rand2[i][2]}px`}
             />
           )
         })}
