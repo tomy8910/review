@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
 import './App.css'
 import Pass from './Pass'
-import Pass2 from './Pass2'
 
 const haha =
   'https://scontent.fceb2-1.fna.fbcdn.net/v/t1.0-9/15284096_1297887133566925_4777882303825093241_n.jpg?oh=6ed4a12e310a2b562e4fd38cc34ee290&oe=5A0038E2'

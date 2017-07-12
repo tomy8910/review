@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { findDOMNode } from 'react-dom'
 
 const BabyGirl = styled.div`
   height: 100vh;
@@ -9,14 +8,6 @@ const BabyGirl = styled.div`
   position: relative;
 `
 const RandomPic = styled.img`
-  height: 100px;
-  width: 100px;
-  position: absolute;
-  top: calc(${props => props.top} - 100px);
-  left: calc(${props => props.left} - 100px);
-  border-radius: ${props => props.radius};
-`
-const RandomPi = styled.img`
   height: 100px;
   width: 100px;
   position: absolute;
@@ -34,11 +25,14 @@ export default class Pass extends Component {
       rand: [],
       keys: [],
       pigs: 0,
-      rand2: []
+      rand2: [],
+      pandas: 0,
+      rand3: []
     }
     this.destroyWorld = this.destroyWorld.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
     this.destroyWorlds = this.destroyWorlds.bind(this)
+    this.destroyWorldss = this.destroyWorldss.bind(this)
   }
 
   destroyWorld() {
@@ -46,9 +40,11 @@ export default class Pass extends Component {
     const top = Math.floor(Math.random() * 100)
     const radius = Math.floor(Math.random() * 10 + 1)
     const rand = [...this.state.rand]
+    let imgs = this.state.imgs
+    imgs++
     rand.push([left, top, radius])
     this.setState({
-      imgs: (this.state.imgs += 1),
+      imgs,
       rand
     })
     console.log(this.state.imgs)
@@ -58,38 +54,54 @@ export default class Pass extends Component {
     const top = Math.floor(Math.random() * 100)
     const radius = Math.floor(Math.random() * 10 + 1)
     const rand2 = [...this.state.rand2]
+    let pigs = this.state.pigs
+    pigs++
     rand2.push([left, top, radius])
     this.setState({
-      pigs: (this.state.pigs += 1),
+      pigs,
       rand2
     })
     console.log(this.state.pigs)
   }
+  destroyWorldss() {
+    const left = Math.floor(Math.random() * 100)
+    const top = Math.floor(Math.random() * 100)
+    const radius = Math.floor(Math.random() * 10 + 1)
+    const rand3 = [...this.state.rand3]
+    let pandas = this.state.pandas
+    pandas++
+    rand3.push([left, top, radius])
+    this.setState({
+      pandas,
+      rand3
+    })
+    console.log(this.state.pandas)
+  }
   handleKeyPress(e) {
-    const keys = [...this.state.keys]
-    let key = keys
-    if (key.slice(-4, key.length).join('').toLowerCase() === 'doms') {
-      console.log(key.slice(-4, key.length).join('').toLowerCase())
+    const keys = [...this.state.keys, ...e.key]
+
+    this.setState({ keys })
+    if (keys.slice(-4, keys.length).join('').toLowerCase() === 'doms') {
+      console.log(keys.slice(-4, keys.length).join('').toLowerCase())
       this.destroyWorld()
     }
-    if (key.slice(-4, key.length).join('').toLowerCase() === 'toms') {
-      console.log(key.slice(-4, key.length).join('').toLowerCase())
+    if (keys.slice(-4, keys.length).join('').toLowerCase() === 'toms') {
+      console.log(keys.slice(-4, keys.length).join('').toLowerCase())
       this.destroyWorlds()
     }
-
-    keys.push(e.key)
-    this.setState({
-      keys
-    })
-    //this.destroyWorld()
-    console.log(this.state.keys)
-    console.log()
+    if (keys.slice(-5, keys.length).join('').toLowerCase() === 'panda') {
+      console.log(keys.slice(-4, keys.length).join('').toLowerCase())
+      this.destroyWorldss()
+    }
+    console.log(keys)
+    console.log(keys.slice(-4, keys.length))
   }
+
   render() {
     return (
       <BabyGirl
         innerRef={input => (this.haha = input)}
-        onKeyDown={this.handleKeyPress}
+        onKeyPress={this.handleKeyPress}
         tabIndex="0"
       >
         {Array(this.state.imgs).fill(this.state.imgs).map((el, i) => {
@@ -113,6 +125,18 @@ export default class Pass extends Component {
               left={`${this.state.rand2[i][1]}%`}
               radius={`${this.state.rand2[i][2]}px`}
               alt="piggy"
+            />
+          )
+        })}
+        {Array(this.state.pandas).fill(this.state.pandas).map((el, i) => {
+          return (
+            <RandomPic
+              key={i}
+              src="https://pbs.twimg.com/media/CdlFCYmXIAAGkiH.jpg"
+              top={`${this.state.rand3[i][0]}%`}
+              left={`${this.state.rand3[i][1]}%`}
+              radius={`${this.state.rand3[i][2]}px`}
+              alt="panda"
             />
           )
         })}
